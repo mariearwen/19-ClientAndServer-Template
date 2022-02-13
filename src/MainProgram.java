@@ -4,7 +4,8 @@ import view.Server.MainFrameServer;
 import java.awt.*;
 
 /**
- * Created by Jean-Pierre on 12.01.2017.
+ * Created by AOS on 12.01.2017.
+ * Update by AOS on 13.02.2022.
  */
 public class MainProgram {
 
