@@ -3,6 +3,8 @@ package control;
 import model.List;
 import view.Server.InteractionPanelHandlerServer;
 
+import java.time.LocalDateTime;
+
 /**Aus Gründen der Vereinfachung gibt es eine "Verzahnung" (gegenseitige Kennt-Beziehung --> Assoziation) zwischen TestServer und InteractionsPanelHandlerServer.
  *  Im fertigen Programm existiert jeweils ein Objekt. Beide Objekte kennen sich gegenseitig.
  * Created by AOS on 18.09.2017.
@@ -18,17 +20,28 @@ public class TestServer extends Server{
         clients = new List<>();
         this.panelHandler = panel;
         //TODO 02 Falls der Server offen ist, werden die Knöpfe im Panel angeschaltet: buttonsSwitch aufrufen. Ansonsten erfolgt eine Ausgabe, dass es ein Problem beim Starten gab.
+        if(this.isOpen()){
+            panelHandler.buttonSwitch();
+        }else{
+            sendToAll("Es gab einen Fehler");
+        }
+
     }
 
     @Override
     public void processNewConnection(String pClientIP, int pClientPort) {
-        clients.append(pClientIP+":"+pClientPort); //TODO 03a Erläutern Sie, was hier passiert.
+        clients.append(pClientIP+":"+pClientPort); //TODO 03a Erläutern Sie, was hier passiert. erste Anmeldung, Handshake
         panelHandler.displayNewConnection(pClientIP,pClientPort);
     }
 
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
-        panelHandler.showProcessMessageContent(pClientIP,pClientPort,pMessage); //TODO 03b Erläutern Sie, was hier passiert.
+        panelHandler.showProcessMessageContent(pClientIP,pClientPort,pMessage); //TODO 03b Erläutern Sie, was hier passiert. alles
+        send(pClientIP,pClientPort,"ECHO"+ LocalDateTime.now()+"§§"+pMessage);
+        String[] s = pMessage.split("§§");
+        if(s.length==2){
+            send(pClientIP,pClientPort,"ECHO"+LocalDateTime.now()+"§§"+pClientIP+"§§"+s[1]);
+        }
     }
 
     @Override
@@ -63,6 +76,20 @@ public class TestServer extends Server{
      */
     public String[] getClients(){
         //TODO 04 Ein Hoch auf die Standard-Listen/Array-Aufgaben! Bitte umsetzen.
-        return new String[]{"0000:0000"};
+        clients.toFirst();
+        int size = 0;
+        while(clients.hasAccess()){
+            size++;
+            clients.next();
+        }
+
+        clients.toFirst();
+        String[] clientArray= new String[size];
+
+        for(int i = 0;i< size;i++){
+            clientArray[i]= clients.getContent();
+            clients.next();
+        }
+        return clientArray;
     }
 }
