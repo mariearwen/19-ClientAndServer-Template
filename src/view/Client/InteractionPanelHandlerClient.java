@@ -19,6 +19,7 @@ public class InteractionPanelHandlerClient {
     private JTextField message;
     private JButton buttonConnect, buttonDisconnect, buttonSend;
     private JTextArea output;
+    private JButton fluesternButton;
 
     public InteractionPanelHandlerClient() {
         createButtons();
@@ -42,6 +43,7 @@ public class InteractionPanelHandlerClient {
         buttonConnect.setEnabled(true);
         buttonDisconnect.setEnabled(false);
         buttonSend.setEnabled(false);
+        fluesternButton.setEnabled(false);
 
         buttonConnect.addActionListener(new ActionListener() {
             @Override
@@ -60,6 +62,13 @@ public class InteractionPanelHandlerClient {
             @Override
             public void actionPerformed(ActionEvent e) {
                send();
+            }
+        });
+
+        fluesternButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -99,7 +108,7 @@ public class InteractionPanelHandlerClient {
      */
     private void send(){
         //TODO 06 Umsetzen!
-        client.send("NACHRICHT§§"+message.getText());
+        client.send(message.getText());
         message.setText("");
     }
 	
@@ -111,6 +120,7 @@ public class InteractionPanelHandlerClient {
         buttonConnect.setEnabled(!buttonConnect.isEnabled());
         buttonDisconnect.setEnabled(!buttonDisconnect.isEnabled());
         buttonSend.setEnabled(!buttonSend.isEnabled());
+        fluesternButton.setEnabled(!fluesternButton.isEnabled());
     }
 
 	/**

@@ -37,10 +37,10 @@ public class TestServer extends Server{
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
         panelHandler.showProcessMessageContent(pClientIP,pClientPort,pMessage); //TODO 03b Erläutern Sie, was hier passiert. alles
-        send(pClientIP,pClientPort,"ECHO"+ LocalDateTime.now()+"§§"+pMessage);
+        send(pClientIP,pClientPort,"ANALLE"+"§§"+LocalDateTime.now()+"§§"+pMessage);
         String[] s = pMessage.split("§§");
         if(s.length==2){
-            send(pClientIP,pClientPort,"ECHO"+LocalDateTime.now()+"§§"+pClientIP+"§§"+s[1]);
+            send(pClientIP,pClientPort,"ANALLE"+LocalDateTime.now()+"§§"+pClientIP+"§§"+s[1]);
         }
     }
 

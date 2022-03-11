@@ -18,18 +18,31 @@ public class TestClient extends Client{
         this.panelHandler = panelHandler;
 
         //TODO 05 Falls eine Verbindung vorhanden ist, müssen die Knöpfe im panelHandler aktiviert werden mit der Methode switchButtons. Ansonsten muss eine Ausgabe erfolgen, die dem Nutzer mitteilt, dass es ein Verbindungsproblem gab und er bitte IP und Port prüft.
-        panelHandler.switchButtons();
+        if(isConnected()){
+            panelHandler.switchButtons();
+        }else{
+            panelHandler.textReceived("digga funktionier mal richtig");
+        }
     }
 
     @Override
     public void processMessage(String pMessage) {
         //TODO 07 Die empfangene Nachricht wird einfach in der Client-Oberfläche ausgegeben. Eine eventuelle Auswertung kann danach hier in der Methode intern stattfinden.
         String[] s =pMessage.split("§§");
-        if(s[0].equals("ECHO")){
-            panelHandler.textReceived(s[1]+"§§"+s[2]+"§§"+s[3]);
-        }
-        if(s[0].equals("NACHRICHT")){
+        if(s[0].equals("ANALLE")){
+            panelHandler.textReceived(s[1]+s[2]);
+        }else if(s[0].equals("NACHRICHT")){
             panelHandler.textReceived(s[1]);
+        }else if(s[0].equals("NAME")){
+            panelHandler.textReceived(pMessage);
+        }else if(s[0].equals("ANEINEN")){
+            panelHandler.textReceived(pMessage);
+        }else if(s[0].equals("GIBNAME")){
+            panelHandler.textReceived(pMessage);
+        }else if(s[0].equals("NEUERNAME")){
+            panelHandler.textReceived(pMessage);
+        }else if(s[0].equals("NICHTVERBUNDEN")){
+            panelHandler.textReceived(pMessage);
         }
     }
 
